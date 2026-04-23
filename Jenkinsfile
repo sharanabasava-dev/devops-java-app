@@ -9,7 +9,7 @@ pipeline {
 
         stage('Git Checkout') {
             steps {
-                git branch: 'main', url: 'YOUR_GITHUB_REPO_URL'
+                git branch: 'main', url: https://github.com/sharanabasava-dev/devops-java-app.git
             }
         }
 
@@ -25,7 +25,7 @@ pipeline {
                 mvn sonar:sonar ^
                 -Dsonar.projectKey=devops-java-app ^
                 -Dsonar.host.url=http://localhost:9000 ^
-                -Dsonar.login=YOUR_SONAR_TOKEN
+                -Dsonar.login=sqp_a9953dca665f70bc21b84421d61ccee04b5b9f6f
                 '''
             }
         }
