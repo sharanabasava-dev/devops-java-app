@@ -15,13 +15,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'mvn clean package'
+                sh 'mvn clean package'
             }
         }
 
         stage('SonarQube Scan') {
             steps {
-                bat '''
+                sh '''
                 mvn sonar:sonar ^
                 -Dsonar.projectKey=devops-java-app ^
                 -Dsonar.host.url=http://localhost:9000 ^
@@ -32,13 +32,13 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                bat 'docker build -t javaapp:v1 .'
+                sh 'docker build -t javaapp:v1 .'
             }
         }
 
         stage('Deploy') {
             steps {
-                bat 'kubectl apply -f deployment.yaml'
+                sh 'kubectl apply -f deployment.yaml'
             }
         }
     }
