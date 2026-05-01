@@ -29,7 +29,7 @@ stage('SonarQube Scan') {
                     sh '''
                         mvn sonar:sonar \
                         -Dsonar.projectKey=devops-java-app \
-                        -Dsonar.host.url=http://host.docker.internal:9000 \
+                        -Dsonar.host.url=http://sonarqube:9000 \
                         -Dsonar.login=$SONAR_TOKEN
                     '''
                 }
@@ -47,9 +47,11 @@ stage('SonarQube Scan') {
 }
 
         stage('Deploy') {
-            steps {
-                sh 'kubectl apply -f deployment.yaml'
-            }
+    steps {
+        dir('javaapp') {
+            sh 'kubectl apply -f deployment.yaml'
         }
+    }
+}
     }
 }
