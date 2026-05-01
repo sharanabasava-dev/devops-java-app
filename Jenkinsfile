@@ -21,15 +21,19 @@ pipeline {
     }
 }
 
-        stage('SonarQube Scan') {
+stage('SonarQube Scan') {
     steps {
         dir('javaapp') {
-            sh '''
-            mvn sonar:sonar \
-            -Dsonar.projectKey=devops-java-app \
-            -Dsonar.host.url=http://host.docker.internal:9000 \
-            -Dsonar.login=Ysqp_a9953dca665f70bc21b84421d61ccee04b5b9f6f
-            '''
+            withSonarQubeEnv('SonarQube') {
+                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                    sh '''
+                        mvn sonar:sonar \
+                        -Dsonar.projectKey=devops-java-app \
+                        -Dsonar.host.url=http://host.docker.internal:9000 \
+                        -Dsonar.login=$SONAR_TOKEN
+                    '''
+                }
+            }
         }
     }
 }
